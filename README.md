@@ -10,7 +10,7 @@
 
 - Add the following to settings.py:
 
-'''python
+```python
 GOOGLE_PREDICTION_PRIVATE_KEY = os.path.join(BASE_DIR, 'private-key.p12') # REPLACE WITH YOUR KEY
 GOOGLE_PREDICTION_PROJECT_EMAIL = '_________' # REPLACE WITH YOUR PROJECT EMAIL
-'''
+```
