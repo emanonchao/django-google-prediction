@@ -68,15 +68,7 @@ class TrainedModel:
 	def predict(self, inputData):
 		if not isinstance(inputData, (list, tuple)):
 			inputData = [inputData]
-		# inputData = [595927, # MEDIAN HOUSEHOLD INCOME   
-  #      7521, # Population Density (p/sq mi)
-  #      "Yes", # Wifi
-  #      "Yes", # Coffee bar
-  #      "Yes", # Drive-thru
-  #      "No", # Fro-yo
-  #      "No", # Outdoor seating
-  #      800 # Square Footage
-  #      ]
+
 		body = {'input': {'csvInstance': inputData}}
 		return ModelManager.api.trainedmodels().predict(
 			project=self.PROJECT_ID,
