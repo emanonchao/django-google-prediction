@@ -65,6 +65,11 @@ class TrainedModel:
 	def __init__(self, api, project, model):
 		self.api, self.PROJECT_ID, self.model = api, project, model
 
+	def list(self):
+		return ModelManager.api.trainedmodels().list(
+			project=self.PROJECT_ID
+		).execute()
+
 	def predict(self, inputData):
 		if not isinstance(inputData, (list, tuple)):
 			inputData = [inputData]
