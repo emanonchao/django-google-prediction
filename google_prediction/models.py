@@ -65,6 +65,12 @@ class TrainedModel:
 	def __init__(self, api, project, model):
 		self.api, self.PROJECT_ID, self.model = api, project, model
 
+	def analyze(self):
+		return ModelManager.api.trainedmodels().analyze(
+			project=self.PROJECT_ID,
+			id=self.model,
+		).execute()
+
 	def get(self):
 		return ModelManager.api.trainedmodels().get(
 			project=self.PROJECT_ID,
