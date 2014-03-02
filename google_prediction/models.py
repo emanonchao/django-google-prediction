@@ -65,6 +65,24 @@ class TrainedModel:
 	def __init__(self, api, project, model):
 		self.api, self.PROJECT_ID, self.model = api, project, model
 
+	def get(self):
+		return ModelManager.api.trainedmodels().get(
+			project=self.PROJECT_ID,
+			id=self.model,
+		).execute()
+
+	def insert(self, model_name, storage_data_location):
+		body = {
+			'storageDataLocation': storage_data_location,
+			'id': model_name,
+		}
+
+		return ModelManager.api.trainedmodels().insert(
+			project=self.PROJECT_ID,
+			body=body
+		).execute()
+
+	# TODO This is clumsy - requires project
 	def list(self):
 		return ModelManager.api.trainedmodels().list(
 			project=self.PROJECT_ID
