@@ -10,6 +10,12 @@ class ModelManager:
 			self.authorize()
 		return HostedModel(self.api, model)
 
+	# TODO Change this function
+	def get_model_tmp(self, project, model):
+		if not hasattr(self, 'api'):
+			self.authorize()
+		return TrainedModel(self.api, project, model)
+
 	@classmethod
 	def authorize(self):
 		# TODO Validate credentials
@@ -40,9 +46,41 @@ class HostedModel:
 		self.model = model
 
 	def predict(self, inputData):
+		# TODO check for lists in input
 		body = {'input': {'csvInstance': [inputData]}}
 		return ModelManager.api.hostedmodels().predict(
 			project=self.HOSTED_PROJECT_ID,
 			hostedModelName=self.model,
 			body=body
 		).execute()
+
+
+class TrainedModel:
+
+	PROJECT_ID = None
+
+	# TODO Change function structure
+	models = ModelManager().get_model_tmp
+
+	def __init__(self, api, project, model):
+		self.api, self.PROJECT_ID, self.model = api, project, model
+
+	def predict(self, inputData):
+		if not isinstance(inputData, (list, tuple)):
+			inputData = [inputData]
+		# inputData = [595927, # MEDIAN HOUSEHOLD INCOME   
+  #      7521, # Population Density (p/sq mi)
+  #      "Yes", # Wifi
+  #      "Yes", # Coffee bar
+  #      "Yes", # Drive-thru
+  #      "No", # Fro-yo
+  #      "No", # Outdoor seating
+  #      800 # Square Footage
+  #      ]
+		body = {'input': {'csvInstance': inputData}}
+		return ModelManager.api.trainedmodels().predict(
+			project=self.PROJECT_ID,
+			id=self.model,
+			body=body
+		).execute()
+
