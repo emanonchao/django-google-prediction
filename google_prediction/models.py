@@ -71,6 +71,14 @@ class TrainedModel:
 			id=self.model,
 		).execute()
 
+	def delete(self):
+		ModelManager.api.trainedmodels().delete(
+			project=self.PROJECT_ID,
+			id=self.model,
+		).execute()
+
+		self.model = None
+
 	def get(self):
 		return ModelManager.api.trainedmodels().get(
 			project=self.PROJECT_ID,
@@ -104,4 +112,17 @@ class TrainedModel:
 			id=self.model,
 			body=body
 		).execute()
+
+	def update(self, output, inputData):
+		if not isinstance(inputData, (list, tuple)):
+			inputData = [inputData]
+
+		body = {'csvInstance': inputData, 'output': output}
+		
+		return ModelManager.api.trainedmodels().update(
+			project=self.PROJECT_ID,
+			id=self.model,
+			body=body
+		).execute()
+
 
