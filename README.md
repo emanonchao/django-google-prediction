@@ -6,14 +6,30 @@
 
 ## Instructions
 
-- Add private key to base directory
+### Creating a new project
 
+- Go to the [Google Developers Console](https://console.developers.google.com/), click *Create Project* and fill in the project name and id.
+- Go to your project, select *APIs & auth > APIs* and turn the *Prediction API* on.
+
+### Uploading a dataset (.csv)
+- In your project dashboard, select *Cloud Storage > Storage browser*.
+- You might be requested to enable billing for this feature.
+- Click *New Bucket*, fill in as desired and upload your dataset.
+
+### Configuring your Django application
+- In your project dashboard, select *APIs & auth > Credentials*.
+- Click *Create New Client ID*, select the *Service account* option and save your private key as *private-key.p12* in your project's base directory.
+- Still in that page, note the *Email address* provided for that key (e.g. 1234567890-abcdefghijklmnopqrstuvwxyz1234567890@developer.gserviceaccount.com).
 - Add the following to settings.py:
 
 ```python
 GOOGLE_PREDICTION_PRIVATE_KEY = os.path.join(BASE_DIR, 'private-key.p12') # REPLACE WITH YOUR KEY
 GOOGLE_PREDICTION_PROJECT_EMAIL = '_________' # REPLACE WITH YOUR PROJECT EMAIL
 ```
+
+- Add the *google_prediction* folder to your project's base directory.
+
+**TODO:** Update this section.
 
 ## Examples
 
