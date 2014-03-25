@@ -19,10 +19,10 @@ GOOGLE_PREDICTION_PROJECT_EMAIL = '_________' # REPLACE WITH YOUR PROJECT EMAIL
 
 - Using Hosted Models
 ```python
-HostedModel.models('sample.languageid').predict('Me llamo Gabriel. Como te llamas?')
+HostedModel('sample.languageid').predict('Me llamo Gabriel. Como te llamas?')
 # {u'kind': u'prediction#output', u'outputLabel': u'Spanish', u'id': u'sample.languageid', u'selfLink': u'https://www.googleapis.com/prediction/v1.6/projects/414649711441/hostedmodels/sample.languageid/predict', u'outputMulti': [{u'score': u'0.032187', u'label': u'English'}, {u'score': u'0.512064', u'label': u'Spanish'}, {u'score': u'0.455749', u'label': u'French'}]}
 
-m = HostedModel.models('sample.languageid')
+m = HostedModel('sample.languageid')
 m.predict('My name is Gabriel - nice to meet you!')['outputLabel']
 # u'English'
 m.predict("Je m'appelle Gabriel. J'aime la France!")['outputLabel']
