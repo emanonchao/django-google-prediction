@@ -113,5 +113,3 @@ class TrainedModel:
 		return APIManager.get_api().trainedmodels().list(
 			project=project_id
 		).execute()
-
-

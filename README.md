@@ -20,19 +20,17 @@
 - In your project dashboard, select *APIs & auth > Credentials*.
 - Click *Create New Client ID*, select the *Service account* option and save your private key as *private-key.p12* in your project's base directory.
 - Still in that page, note the *Email address* provided for that key (e.g. 1234567890-abcdefghijklmnopqrstuvwxyz1234567890@developer.gserviceaccount.com).
-- Add the following to settings.py:
+- Add the following to *settings.py*:
 
 ```python
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-GOOGLE_PREDICTION_PRIVATE_KEY = os.path.join(BASE_DIR, 'private-key.p12') # REPLACE WITH YOUR KEY
+GOOGLE_PREDICTION_PRIVATE_KEY = os.path.join(BASE_DIR, 'private-key.p12')
 GOOGLE_PREDICTION_PROJECT_EMAIL = '_________' # REPLACE WITH YOUR PROJECT EMAIL
 ```
 
 - Add the *google_prediction* folder to your project's base directory.
-- Install all the modules in *requirements.txt*.
-
-**TODO:** Update this section.
+- Install all the modules in *requirements.txt* (use *pip install -r requirements.txt*).
 
 ## Examples
 
