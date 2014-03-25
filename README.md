@@ -34,6 +34,8 @@ GOOGLE_PREDICTION_PROJECT_EMAIL = '_________' # REPLACE WITH YOUR PROJECT EMAIL
 
 ## Examples
 
+For a complete example, check [django-google-prediction-example](https://github.com/GabrielBianconi/django-google-prediction-example).
+
 - Using Hosted Models
 ```python
 HostedModel('sample.languageid').predict('Me llamo Gabriel. Como te llamas?')
