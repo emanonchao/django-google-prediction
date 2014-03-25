@@ -31,7 +31,7 @@ m.predict("Je m'appelle Gabriel. J'aime la France!")['outputLabel']
 
 - Using Trained Models
 ```python
-TrainedModel(YOUR_PROJECT_ID, "YOUR_MODEL_NAME").predict(INPUT_DATA)
+TrainedModel("YOUR_PROJECT_ID", "YOUR_MODEL_NAME").predict(INPUT_DATA)
 
 m = TrainedModel("YOUR_PROJECT_ID", "YOUR_MODEL_NAME")
 m.predict(INPUT_DATA)
