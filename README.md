@@ -31,8 +31,29 @@ m.predict("Je m'appelle Gabriel. J'aime la France!")['outputLabel']
 
 - Using Trained Models
 ```python
+# Listing all your models
+TrainedModel.list("YOUR_PROJECT_ID")
+
+# Creating a new model 
+# (DATASET_LOCATION must be in a Google Storage bucket; leave blank for empty model)
+TrainedModel("YOUR_PROJECT_ID", "YOUR_MODEL_NAME").insert("DATASET_LOCATION")
+
+# Inserting data into your model
+TrainedModel("YOUR_PROJECT_ID", "YOUR_MODEL_NAME").update(OUTPUT, INPUT_DATA)
+
+# Getting information about your model
+TrainedModel("YOUR_PROJECT_ID", "YOUR_MODEL_NAME").get()
+
+# Analyzing your model
+TrainedModel("YOUR_PROJECT_ID", "YOUR_MODEL_NAME").analyze()
+
+# Predicting based on your model
 TrainedModel("YOUR_PROJECT_ID", "YOUR_MODEL_NAME").predict(INPUT_DATA)
 
+# Deleting your model
+TrainedModel("YOUR_PROJECT_ID", "YOUR_MODEL_NAME").delete()
+
+# Multiple calls
 m = TrainedModel("YOUR_PROJECT_ID", "YOUR_MODEL_NAME")
 m.predict(INPUT_DATA)
 m.predict(SOME_OTHER_DATA)
