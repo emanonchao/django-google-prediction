@@ -3,21 +3,16 @@ from django.conf import settings
 from oauth2client.client import SignedJwtAssertionCredentials
 from apiclient import discovery
 
-class ModelManager:
+class APIManager:
 
-	def get_model(self, model):
-		if not hasattr(self, 'api'):
-			self.authorize()
-		return HostedModel(self.api, model)
+	@staticmethod
+	def get_api():
+		if not hasattr(APIManager, '__api'):
+			APIManager.__auth()
+		return APIManager.__api
 
-	# TODO Change this function
-	def get_model_tmp(self, project, model):
-		if not hasattr(self, 'api'):
-			self.authorize()
-		return TrainedModel(self.api, project, model)
-
-	@classmethod
-	def authorize(self):
+	@staticmethod
+	def __auth():
 		# TODO Validate credentials
 		private_key = open(settings.GOOGLE_PREDICTION_PRIVATE_KEY).read()
 		http = httplib2.Http()
@@ -34,55 +29,49 @@ class ModelManager:
 			)
 
 		credentials.authorize(http)
-		ModelManager.api = discovery.build('prediction', 'v1.6', http=http)
+		APIManager.__api = discovery.build('prediction', 'v1.6', http=http)
+
 
 class HostedModel:
+
 	HOSTED_PROJECT_ID = 414649711441
 
-	models = ModelManager().get_model
+	def __init__(self, model_name):
+		self.model_name = model_name
 
-	def __init__(self, api, model):
-		self.api = api
-		self.model = model
+	def predict(self, input_data):
+		if not isinstance(input_data, (list, tuple)):
+			input_data = [input_data]
 
-	def predict(self, inputData):
-		# TODO check for lists in input
-		body = {'input': {'csvInstance': [inputData]}}
-		return ModelManager.api.hostedmodels().predict(
+		body = {'input': {'csvInstance': input_data}}
+		return APIManager.get_api().hostedmodels().predict(
 			project=self.HOSTED_PROJECT_ID,
-			hostedModelName=self.model,
+			hostedModelName=self.model_name,
 			body=body
 		).execute()
 
 
 class TrainedModel:
 
-	PROJECT_ID = None
-
-	# TODO Change function structure
-	models = ModelManager().get_model_tmp
-
-	def __init__(self, api, project, model):
-		self.api, self.PROJECT_ID, self.model = api, project, model
+	def __init__(self, project_id, model_name):
+		self.project_id, self.model_name = project_id, model_name
 
 	def analyze(self):
-		return ModelManager.api.trainedmodels().analyze(
-			project=self.PROJECT_ID,
-			id=self.model,
+		return APIManager.get_api().trainedmodels().analyze(
+			project=self.project_id,
+			id=self.model_name,
 		).execute()
 
 	def delete(self):
-		ModelManager.api.trainedmodels().delete(
-			project=self.PROJECT_ID,
-			id=self.model,
+		APIManager.get_api().trainedmodels().delete(
+			project=self.project_id,
+			id=self.model_name,
 		).execute()
 
-		self.model = None
-
 	def get(self):
-		return ModelManager.api.trainedmodels().get(
-			project=self.PROJECT_ID,
-			id=self.model,
+		return APIManager.get_api().trainedmodels().get(
+			project=self.project_id,
+			id=self.model_name,
 		).execute()
 
 	def insert(self, model_name, storage_data_location):
@@ -91,38 +80,38 @@ class TrainedModel:
 			'id': model_name,
 		}
 
-		return ModelManager.api.trainedmodels().insert(
-			project=self.PROJECT_ID,
+		return APIManager.get_api().trainedmodels().insert(
+			project=self.project_id,
 			body=body
 		).execute()
 
-	# TODO This is clumsy - requires project
-	def list(self):
-		return ModelManager.api.trainedmodels().list(
-			project=self.PROJECT_ID
-		).execute()
+	def predict(self, input_data):
+		if not isinstance(input_data, (list, tuple)):
+			input_data = [input_data]
 
-	def predict(self, inputData):
-		if not isinstance(inputData, (list, tuple)):
-			inputData = [inputData]
-
-		body = {'input': {'csvInstance': inputData}}
-		return ModelManager.api.trainedmodels().predict(
-			project=self.PROJECT_ID,
-			id=self.model,
+		body = {'input': {'csvInstance': input_data}}
+		return APIManager.get_api().trainedmodels().predict(
+			project=self.project_id,
+			id=self.model_name,
 			body=body
 		).execute()
 
-	def update(self, output, inputData):
-		if not isinstance(inputData, (list, tuple)):
-			inputData = [inputData]
+	def update(self, output, input_data):
+		if not isinstance(input_data, (list, tuple)):
+			input_data = [input_data]
 
-		body = {'csvInstance': inputData, 'output': output}
+		body = {'csvInstance': input_data, 'output': output}
 		
-		return ModelManager.api.trainedmodels().update(
-			project=self.PROJECT_ID,
-			id=self.model,
+		return APIManager.get_api().trainedmodels().update(
+			project=self.project_id,
+			id=self.model_name,
 			body=body
+		).execute()
+
+	@staticmethod
+	def list(project_id):
+		return APIManager.get_api().trainedmodels().list(
+			project=project_id
 		).execute()
 
 
