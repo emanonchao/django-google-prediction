@@ -23,11 +23,14 @@
 - Add the following to settings.py:
 
 ```python
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 GOOGLE_PREDICTION_PRIVATE_KEY = os.path.join(BASE_DIR, 'private-key.p12') # REPLACE WITH YOUR KEY
 GOOGLE_PREDICTION_PROJECT_EMAIL = '_________' # REPLACE WITH YOUR PROJECT EMAIL
 ```
 
 - Add the *google_prediction* folder to your project's base directory.
+- Install all the modules in *requirements.txt*.
 
 **TODO:** Update this section.
 
