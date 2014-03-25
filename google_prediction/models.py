@@ -74,10 +74,10 @@ class TrainedModel:
 			id=self.model_name,
 		).execute()
 
-	def insert(self, model_name, storage_data_location):
+	def insert(self, storage_data_location):
 		body = {
 			'storageDataLocation': storage_data_location,
-			'id': model_name,
+			'id': self.model_name,
 		}
 
 		return APIManager.get_api().trainedmodels().insert(
